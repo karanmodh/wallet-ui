@@ -1,5 +1,5 @@
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
@@ -24,14 +24,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const AdditionForm = () => {
-    const styles = useStyles();
+    const classes = useStyles();
     return (
         <div >
             <br />
-            <div className={styles.form_box}>
-                <TextField label="Name" variant="outlined" size="small" className={styles.text_input} />
-                <TextField label="amount" variant="outlined" size="small" className={styles.text_input} />
-                <Button variant="contained" color="primary" size="medium" startIcon={<Icon>add_circle</Icon>} className={styles.button}>
+            <div className={classes.form_box}>
+                <TextField label="Name" variant="outlined" size="small" className={classes.text_input} />
+                <TextField label="amount" variant="outlined" size="small" className={classes.text_input} />
+                <Button variant="contained" color="primary" size="medium" startIcon={<AddCircleIcon />} className={classes.button}>
                 add
                 </Button>
             </div>
@@ -40,12 +40,12 @@ const AdditionForm = () => {
 }
 
 export const WalletCreateForm = () => {
-    const styles = useStyles();
+    const classes = useStyles();
     const displayForm = true;
 
     return (
         <div>
-            <Button variant="contained" color="primary" size="large" startIcon={<Icon>add_circle</Icon>} className={styles.button}>
+            <Button variant="contained" color="primary" size="large" startIcon={<AddCircleIcon />} className={classes.button}>
             Create
             </Button>
             {displayForm?<AdditionForm />:<div></div>}
