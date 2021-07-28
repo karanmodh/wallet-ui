@@ -1,12 +1,15 @@
 import './App.css';
 import Header from './features/repo_search/Header';
-import Search from './features/repo_search/Search';
+import { WalletCreateForm } from './features/wallet/components/WalletCreateForm';
 
 function App() {
   return (
     <div className="App">
-      <Header text="Github Repo fetch" />
-      <Search />
+      <Header text="Wallet Service" />
+      <hr/>
+
+      <WalletCreateForm />
+
     </div>
   );
 }
