@@ -34,7 +34,7 @@ const HomePage = () => {
 
 function App() {
 
-  const onWalletPage = true;
+  const onWalletPage = false;
 
   return (
     <div className="App">
