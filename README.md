@@ -1,4 +1,4 @@
-# This Project is the UI of the Wallet Service created as an assignment during the bootcamp at NAVI
+# Wallet Service UI built using React & Redux
 
 ## Steps to install and run:
 
