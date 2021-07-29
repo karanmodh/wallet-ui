@@ -2,6 +2,8 @@ import Button from '@material-ui/core/Button';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { getInputAmount, getInputName, getShowForm, setInputAmount, setInputName, toggleWalletCreateForm } from '../actions/walletAction';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,13 +26,26 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const AdditionForm = () => {
+    const dispatch = useAppDispatch();
     const classes = useStyles();
+    const input_name = useAppSelector(getInputName);
+    const input_amount = useAppSelector(getInputAmount);
+
+    const handleInputName = (input_name: string) => {
+        dispatch(setInputName(input_name));
+    }
+
+    const handleInputAmount = (input_amount: string) => {
+        let amount = parseInt(input_amount);
+        dispatch(setInputAmount(amount));
+    }
+
     return (
         <div >
             <br />
             <div className={classes.form_box}>
-                <TextField label="Name" variant="outlined" size="small" className={classes.text_input} />
-                <TextField label="amount" variant="outlined" size="small" className={classes.text_input} />
+                <TextField value={input_name} label="Name" variant="outlined" size="small" className={classes.text_input} onChange={e => handleInputName(e.target.value)}/>
+                <TextField value={input_amount} label="Starting Balance" variant="outlined" size="small" className={classes.text_input} type="number" onChange={e => handleInputAmount(e.target.value)}/>
                 <Button variant="contained" color="primary" size="medium" startIcon={<AddCircleIcon />} className={classes.button}>
                 add
                 </Button>
@@ -40,15 +55,20 @@ const AdditionForm = () => {
 }
 
 export const WalletCreateForm = () => {
+    const dispatch = useAppDispatch();
     const classes = useStyles();
-    const displayForm = true;
+    const showForm = useAppSelector(getShowForm);
+    
+    const handleClick = () => {
+        dispatch(toggleWalletCreateForm(!showForm));
+    }
 
     return (
         <div>
-            <Button variant="contained" color="primary" size="large" startIcon={<AddCircleIcon />} className={classes.button}>
+            <Button variant="contained" color="primary" size="large" startIcon={<AddCircleIcon />} className={classes.button} onClick={()=>handleClick()}>
             Create
             </Button>
-            {displayForm?<AdditionForm />:<div></div>}
+            {showForm?<AdditionForm />:<div></div>}
         </div>
     )
 }

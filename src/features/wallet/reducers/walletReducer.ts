@@ -1,4 +1,4 @@
-import { TOGGLE_DISPLAY_PAGE, SET_OPENED_WALLET}  from "../actions/walletAction";
+import { TOGGLE_DISPLAY_PAGE, SET_OPENED_WALLET, SET_INPUT_NAME, SET_INPUT_AMOUNT}  from "../actions/walletAction";
 import { SET_WALLETS, TOGGLE_WALLET_CREATE_FORM } from "../actions/walletAction";
 import { TOGGLE_SHOW_WALLETS } from "../actions/walletAction";
 
@@ -43,6 +43,16 @@ export const walletReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 showWallets: action.showWallets
+            }
+        case SET_INPUT_NAME:
+            return {
+                ...state,
+                input_name: action.input_name
+            }
+        case SET_INPUT_AMOUNT:
+            return {
+                ...state,
+                input_amount: action.input_amount
             }
         default:
             return state;
