@@ -1,15 +1,10 @@
 import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
 import SendIcon from '@material-ui/icons/Send';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import Divider from '@material-ui/core/Divider';
-
-export interface walletDetails {
-    name: string,
-    amount: number
-}
+import { walletDetailsProp } from './Wallet';
 
 const useStyles = makeStyles({
     wrapper: {
@@ -42,7 +37,7 @@ const useStyles = makeStyles({
     }
 });
 
-const ListCard = (props: walletDetails) => {
+const ListCard = (props: walletDetailsProp) => {
     const classes = useStyles();
     
     return (
@@ -87,8 +82,8 @@ export const WalletList = () => {
 
     return (
         <div>
-            {wallet_list.map((wallet) => {
-                return <ListCard name={wallet.name} amount={wallet.amount} />
+            {wallet_list.map((wallet, index) => {
+                return <ListCard key={index} name={wallet.name} amount={wallet.amount} />
             })}
         </div>
     )

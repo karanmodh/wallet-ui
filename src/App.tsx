@@ -4,7 +4,7 @@ import { Wallet } from './features/wallet/components/Wallet';
 import { WalletCreateForm } from './features/wallet/components/WalletCreateForm';
 import { WalletList } from './features/wallet/components/WalletListCard';
 
-function App() {
+const WalletPage = () => {
   const transactions = [
     {
       "amount": 2000,
@@ -17,18 +17,30 @@ function App() {
   ];
 
   return (
+    <div>
+      <Wallet name="Karan Modh" amount={5000} transactions={transactions}/>
+    </div>
+  )
+}
+
+const HomePage = () => {
+  return (
+    <div>
+      <WalletCreateForm />
+      <WalletList />
+    </div>
+  )
+}
+
+function App() {
+
+  const onWalletPage = true;
+
+  return (
     <div className="App">
       <Header text="Wallet Service" />
       <hr/>
-
-      <WalletCreateForm />
-      <WalletList />
-
-      <hr />
-
-      <Header text="Wallet Service" />
-      <hr/>
-      <Wallet name="Karan Modh" amount={5000} transactions={transactions}/>
+      {onWalletPage?<WalletPage />:<HomePage />}
     </div>
   );
 }
