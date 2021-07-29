@@ -6,6 +6,8 @@ import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import IconButton from "@material-ui/core/IconButton";
 import { transactionProp } from "./TransactionList";
 import { TransactionList } from "./TransactionList";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { getOpenedWallet, getPage, toggleDisplayPage } from "../actions/walletAction";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,19 +31,28 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface walletDetailsProp {
     name: string,
-    amount: number,
+    balance: number,
     transactions?: transactionProp[]
 }
 
 
-export const Wallet = (props: (walletDetailsProp)) => {
+export const Wallet = () => {
     const classes = useStyles();
-    const title = `${props.name}'s Wallet`;
+    const dispatch = useAppDispatch();
+    const wallet_details = useAppSelector(getOpenedWallet);
+    const page = useAppSelector(getPage);
+
+    const title = `${wallet_details.name}'s Wallet`;
+
+    const handleBackClick = () => {
+        dispatch(toggleDisplayPage(!page));
+    }
+
     return (
         <div>
             <div style={{display: "flexbox", justifyContent: "space-between"}}>
                 <h1 style={{color:"#4B4968"}}>{title}</h1>
-                <h1 style={{color:"#4B4968"}}><i className="fa fa-inr"></i> {props.amount}</h1>
+                <h1 style={{color:"#4B4968"}}><i className="fa fa-inr"></i> {wallet_details.balance}</h1>
             </div>
             
             <br />
@@ -54,10 +65,10 @@ export const Wallet = (props: (walletDetailsProp)) => {
             Withdraw
             </Button>
             
-            <TransactionList transactions={props.transactions} />
+            <TransactionList transactions={wallet_details.transactions} />
 
             <br />
-            <IconButton aria-label="add to shopping cart">
+            <IconButton aria-label="add to shopping cart" onClick={()=>handleBackClick()} >
                 <div className={classes.back_button_div}>
                     <ArrowBackRoundedIcon className={classes.back_icon} fontSize="large"/>    
                 </div>

@@ -5,6 +5,9 @@ import SendIcon from '@material-ui/icons/Send';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import Divider from '@material-ui/core/Divider';
 import { walletDetailsProp } from './Wallet';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { getPage, setOpenedWallet, toggleDisplayPage } from '../actions/walletAction';
+import data from '../../../assets/wallet_data.json';
 
 const useStyles = makeStyles({
     wrapper: {
@@ -37,26 +40,33 @@ const useStyles = makeStyles({
     }
 });
 
-const ListCard = (props: walletDetailsProp) => {
+const ListCard = (props: {details: walletDetailsProp}) => {
     const classes = useStyles();
-    
+    const dispatch = useAppDispatch();
+    const page = useAppSelector(getPage);
+
+    const handleArrowClick = () => {
+        dispatch(setOpenedWallet(props.details));
+        dispatch(toggleDisplayPage(!page));
+    }
+
     return (
         <Card className={classes.root} variant="outlined" >
             <div className={classes.wrapper}>
                 <div className={classes.wrapper}>
                     <AccountBalanceWalletIcon className={classes.wallet_icon} fontSize="large"/>
-                    <h2 className={classes.data}>{props.name}</h2>
+                    <h2 className={classes.data}>{props.details.name}</h2>
                 </div>
                 
                 <Divider orientation="vertical" flexItem />
 
                 <div className={classes.wrapper}>
-                    <h2 className={classes.data}><i className="fa fa-inr"></i> {props.amount}</h2>
+                    <h2 className={classes.data}><i className="fa fa-inr"></i> {props.details.balance}</h2>
                 </div>
 
                 <Divider orientation="vertical" flexItem />
                 
-                <IconButton aria-label="enter" className={classes.send_icon} color="primary">
+                <IconButton aria-label="enter" className={classes.send_icon} color="primary" onClick={()=>handleArrowClick()}>
                     <SendIcon />
                 </IconButton>
             </div>
@@ -65,25 +75,12 @@ const ListCard = (props: walletDetailsProp) => {
 }
 
 export const WalletList = () => {
-    const wallet_list = [
-        {
-            "name": "Kim Wexler",
-            "amount": 5000
-        },
-        {
-            "name": "Walter White",
-            "amount": 6500
-        },
-        {
-            "name": "Gus Firing",
-            "amount": 63400
-        }
-    ]
+    const wallet_list = data;
 
     return (
         <div>
             {wallet_list.map((wallet, index) => {
-                return <ListCard key={index} name={wallet.name} amount={wallet.amount} />
+                return <ListCard key={index} details={wallet} />
             })}
         </div>
     )

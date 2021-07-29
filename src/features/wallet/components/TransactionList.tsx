@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface transactionProp {
     amount: number,
-    type: boolean
+    type: string
 }
 
 const TransactionCard = (props: transactionProp) => {
@@ -52,7 +52,7 @@ const TransactionCard = (props: transactionProp) => {
         <Card className={classes.transaction_card} variant="outlined" >
             <div className={classes.wrapper}>
                 <div className={classes.wrapper}>
-                    {props.type?<ArrowUpwardRoundedIcon fontSize="large" className={classes.uparrow_icon} />:<ArrowDownwardRoundedIcon fontSize="large" className={classes.downarrow_icon} />}
+                    {props.type==="topup"?<ArrowUpwardRoundedIcon fontSize="large" className={classes.uparrow_icon} />:<ArrowDownwardRoundedIcon fontSize="large" className={classes.downarrow_icon} />}
                 </div>
                 
                 <Divider orientation="vertical" flexItem />
