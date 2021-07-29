@@ -1,40 +1,11 @@
 import './App.css';
 import Header from './features/repo_search/Header';
-import { Wallet } from './features/wallet/components/Wallet';
-import { WalletCreateForm } from './features/wallet/components/WalletCreateForm';
-import { WalletList } from './features/wallet/components/WalletListCard';
-
-const WalletPage = () => {
-  const transactions = [
-    {
-      "amount": 2000,
-      "type": false
-    },
-    {
-      "amount": 7000,
-      "type": true
-    }
-  ];
-
-  return (
-    <div>
-      <Wallet name="Karan Modh" amount={5000} transactions={transactions}/>
-    </div>
-  )
-}
-
-const HomePage = () => {
-  return (
-    <div>
-      <WalletCreateForm />
-      <WalletList />
-    </div>
-  )
-}
+import { HomePage } from './features/wallet/components/HomePage';
+import { WalletPage } from './features/wallet/components/WalletPage';
 
 function App() {
 
-  const onWalletPage = false;
+  const onWalletPage = true;
 
   return (
     <div className="App">
