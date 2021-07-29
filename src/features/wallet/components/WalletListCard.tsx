@@ -79,7 +79,7 @@ export const WalletList = () => {
     const wallet_list = useAppSelector(getWallets);
 
     return (
-        <div>
+        <div style={{marginBottom: "40px"}}>
             {wallet_list.map((wallet:any, index:any) => {
                 return <ListCard key={index} details={wallet} />
             })}

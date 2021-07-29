@@ -3,7 +3,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getInputAmount, getInputName, getShowForm, setInputAmount, setInputName, toggleWalletCreateForm } from '../actions/walletAction';
+import { addWallet, getInputAmount, getInputName, getShowForm, setInputAmount, setInputName, toggleWalletCreateForm } from '../actions/walletAction';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,6 +38,12 @@ const AdditionForm = () => {
     const handleInputAmount = (input_amount: string) => {
         let amount = parseInt(input_amount);
         dispatch(setInputAmount(amount));
+        dispatch(setInputName(""))
+        dispatch(setInputAmount(0))
+    }
+
+    const handleWalletAddition = () => {
+        dispatch(addWallet(input_name, input_amount))
     }
 
     return (
@@ -46,7 +52,7 @@ const AdditionForm = () => {
             <div className={classes.form_box}>
                 <TextField value={input_name} label="Name" variant="outlined" size="small" className={classes.text_input} onChange={e => handleInputName(e.target.value)}/>
                 <TextField value={input_amount} label="Starting Balance" variant="outlined" size="small" className={classes.text_input} type="number" onChange={e => handleInputAmount(e.target.value)}/>
-                <Button variant="contained" color="primary" size="medium" startIcon={<AddCircleIcon />} className={classes.button}>
+                <Button variant="contained" color="primary" size="medium" startIcon={<AddCircleIcon />} className={classes.button} onClick={() => handleWalletAddition()}>
                 add
                 </Button>
             </div>

@@ -9,6 +9,8 @@ export const SET_INPUT_AMOUNT = 'SET_INPUT_AMOUNT';
 export const TOGGLE_WALLET_CREATE_FORM = 'TOGGLE_WALLET_CREATE_FORM';
 export const TOGGLE_SHOW_WALLETS = 'TOGGLE_SHOW_WALLETS';
 
+const WALLET_URL = 'http://localhost:8000/wallets';
+
 export const toggleDisplayPage = (onWalletPage: boolean) => {
     return {
         type: TOGGLE_DISPLAY_PAGE,
@@ -59,8 +61,8 @@ const setWallets = (wallets: walletDetailsProp[]) => {
 }
 
 export const fetchWallets = () => {
-    return (dispatch: (arg0: { type: string; wallets: walletDetailsProp[]; }) => void) => {
-        fetch('http://localhost:8000/wallets')
+    return (dispatch:any) => {
+        fetch(WALLET_URL)
         .then(response => {
             return response.json();
         }).then(res => {
@@ -73,6 +75,37 @@ export const fetchWallets = () => {
             console.error('Error:', error)
         })
     }    
+}
+
+export const addWallet = (input_name: string, input_amount: number) => {
+    return (dispatch:any) => {
+        fetch(WALLET_URL, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(
+                {
+                    "name": input_name,
+                    "balance": input_amount,
+                    "transactions": [
+                        {
+                            "amount": input_amount,
+                            "type": "topup"
+                        }
+                    ]
+                }
+            ),
+        }).then(response => {
+            return response.json()
+        }).catch(error => {
+            console.error('Error:', error)
+        }).then(response => {
+            dispatch(fetchWallets())
+            console.log(response);
+            console.log('Success:', JSON.stringify(response))
+        });
+    }
 }
 
 // GETTERS for state
