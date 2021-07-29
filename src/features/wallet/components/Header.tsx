@@ -1,4 +1,4 @@
-import navilogo from "../../assets/naviwalletlogo.png"
+import navilogo from "../../../assets/naviwalletlogo.png"
 
 interface headerProps {
     text: string;

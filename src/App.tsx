@@ -1,6 +1,6 @@
 import './App.css';
 import { useAppSelector } from './app/hooks';
-import Header from './features/repo_search/Header';
+import Header from './features/wallet/components/Header';
 import { getPage } from './features/wallet/actions/walletAction';
 import { HomePage } from './features/wallet/components/HomePage';
 import { Wallet } from './features/wallet/components/Wallet';
@@ -8,7 +8,7 @@ import { Wallet } from './features/wallet/components/Wallet';
 function App() {
 
   const onWalletPage = useAppSelector(getPage);
-  
+
 
   return (
     <div className="App">
