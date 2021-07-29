@@ -6,8 +6,8 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import Divider from '@material-ui/core/Divider';
 import { walletDetailsProp } from './Wallet';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getPage, setOpenedWallet, toggleDisplayPage } from '../actions/walletAction';
-import data from '../../../assets/wallet_data.json';
+import { getPage, getWallets} from '../actions/walletAction';
+import {setOpenedWallet, toggleDisplayPage } from '../actions/walletAction';
 
 const useStyles = makeStyles({
     wrapper: {
@@ -75,11 +75,12 @@ const ListCard = (props: {details: walletDetailsProp}) => {
 }
 
 export const WalletList = () => {
-    const wallet_list = data;
+    
+    const wallet_list = useAppSelector(getWallets);
 
     return (
         <div>
-            {wallet_list.map((wallet, index) => {
+            {wallet_list.map((wallet:any, index:any) => {
                 return <ListCard key={index} details={wallet} />
             })}
         </div>

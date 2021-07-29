@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface walletDetailsProp {
+    id: number,
     name: string,
     balance: number,
     transactions?: transactionProp[]
