@@ -4,10 +4,10 @@ import LocalAtm from '@material-ui/icons/LocalAtm';
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import IconButton from "@material-ui/core/IconButton";
-import { transactionProp } from "./TransactionList";
 import { TransactionList } from "./TransactionList";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { getOpenedWallet, getPage, toggleDisplayPage } from "../actions/walletAction";
+import { getOpenedWallet, getPage, getShowCreditForm, getShowDebitForm, toggleCreditForm, toggleDebitForm, toggleDisplayPage } from "../actions/walletAction";
+import { AdditionForm } from "./AdditionForm";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +33,6 @@ export interface walletDetailsProp {
     id: number,
     name: string,
     balance: number,
-    transactions?: transactionProp[]
 }
 
 
@@ -42,11 +41,27 @@ export const Wallet = () => {
     const dispatch = useAppDispatch();
     const wallet_details = useAppSelector(getOpenedWallet);
     const page = useAppSelector(getPage);
+    const credit_form = useAppSelector(getShowCreditForm);
+    const debit_form = useAppSelector(getShowDebitForm);
 
     const title = `${wallet_details.name}'s Wallet`;
 
     const handleBackClick = () => {
         dispatch(toggleDisplayPage(!page));
+    }
+
+    const handleTopup = () => {
+        if(debit_form){
+            dispatch(toggleDebitForm(!debit_form))
+        }
+        dispatch(toggleCreditForm(!credit_form))
+    }
+
+    const handleWithdraw = () => {
+        if(credit_form){
+            dispatch(toggleCreditForm(!credit_form))
+        }
+        dispatch(toggleDebitForm(!debit_form))
     }
 
     return (
@@ -58,14 +73,17 @@ export const Wallet = () => {
             
             <br />
 
-            <Button variant="contained" color="primary" size="large" startIcon={<AddCircleIcon />} className={classes.button}>
+            <Button variant="contained" color="primary" size="large" startIcon={<AddCircleIcon />} className={classes.button} onClick={() => handleTopup()}>
             Top-up
             </Button>
 
-            <Button variant="contained" color="primary" size="large" startIcon={<LocalAtm />} className={classes.button}>
+            <Button variant="contained" color="primary" size="large" startIcon={<LocalAtm />} className={classes.button} onClick={() => handleWithdraw()}>
             Withdraw
             </Button>
             
+            {credit_form?<AdditionForm id={wallet_details.id} type="CREDIT"/>:<div></div>}
+            {debit_form?<AdditionForm id={wallet_details.id} type="DEBIT"/>:<div></div>}
+
             <TransactionList transactions={wallet_details.transactions} />
 
             <br />

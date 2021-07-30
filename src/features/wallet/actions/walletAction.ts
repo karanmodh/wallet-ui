@@ -1,4 +1,5 @@
 import { RootState } from "../../../app/store";
+import { transactionProp } from "../components/TransactionList";
 import { walletDetailsProp } from "../components/Wallet";
 
 export const TOGGLE_DISPLAY_PAGE = 'TOGGLE_DISPLAY_PAGE';
@@ -8,20 +9,16 @@ export const SET_INPUT_NAME = 'SET_INPUT_NAME';
 export const SET_INPUT_AMOUNT = 'SET_INPUT_AMOUNT';
 export const TOGGLE_WALLET_CREATE_FORM = 'TOGGLE_WALLET_CREATE_FORM';
 export const TOGGLE_SHOW_WALLETS = 'TOGGLE_SHOW_WALLETS';
+export const ADD_TRANSACTION = 'ADD_TRANSACTION';
+export const TOGGLE_CREDIT_FORM = 'TOGGLE_CREDIT_FORM';
+export const TOGGLE_DEBIT_FORM = 'TOGGLE_DEBIT_FORM';
 
-const WALLET_URL = 'http://localhost:8000/wallets';
+const WALLET_URL = 'http://localhost:8080/wallets';
 
 export const toggleDisplayPage = (onWalletPage: boolean) => {
     return {
         type: TOGGLE_DISPLAY_PAGE,
         onWalletPage: onWalletPage
-    }
-}
-
-export const setOpenedWallet = (openedWallet: walletDetailsProp) => {
-    return {
-        type: SET_OPENED_WALLET,
-        openedWallet: openedWallet
     }
 }
 
@@ -36,6 +33,20 @@ export const toggleWalletCreateForm = (showForm: boolean) => {
     return {
         type: TOGGLE_WALLET_CREATE_FORM,
         showForm: showForm
+    }
+}
+
+export const toggleCreditForm = (showCreditForm: boolean) => {
+    return {
+        type: TOGGLE_CREDIT_FORM,
+        showCreditForm: showCreditForm
+    }
+}
+
+export const toggleDebitForm = (showDebitForm: boolean) => {
+    return {
+        type: TOGGLE_DEBIT_FORM,
+        showDebitForm: showDebitForm
     }
 }
 
@@ -88,12 +99,6 @@ export const addWallet = (input_name: string, input_amount: number) => {
                 {
                     "name": input_name,
                     "balance": input_amount,
-                    "transactions": [
-                        {
-                            "amount": input_amount,
-                            "type": "topup"
-                        }
-                    ]
                 }
             ),
         }).then(response => {
@@ -101,7 +106,64 @@ export const addWallet = (input_name: string, input_amount: number) => {
         }).catch(error => {
             console.error('Error:', error)
         }).then(response => {
-            dispatch(fetchWallets())
+            dispatch(fetchWallets());
+            dispatch(setInputName(""));
+            dispatch(setInputAmount(0));
+            
+            console.log(response);
+            console.log('Success:', JSON.stringify(response))
+        });
+    }
+}
+
+const setOpenedWallet = (openedWallet: {"wallet": walletDetailsProp, "transactions": transactionProp[]}) => {
+    return {
+        type: SET_OPENED_WALLET,
+        openedWallet: openedWallet
+    }
+}
+
+export const fetchTransactions = (id?: number) => {
+    const url = `${WALLET_URL}/${id}/transactions`;
+    return (dispatch: any) => {
+        fetch(url)
+        .then(response => response.json())
+        .catch(error => console.log(`Error: ${error}`))
+        .then(response => {
+            const openedWallet = {
+                ...response.wallet,
+                transactions: response.transactions
+            }
+            dispatch(setOpenedWallet(openedWallet))
+            return response;
+        })
+    }
+}
+
+export const addTransaction = (input_remark: string, input_amount: number, type: string, id?: number) => {
+    const url = `${WALLET_URL}/${id}/transactions`;
+    return (dispatch:any) => {
+        fetch(url, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(
+                {
+                    "remark": input_remark,
+                    "amount": input_amount,
+                    "type": type
+                }
+            ),
+        }).then(response => {
+            return response.json()
+        }).catch(error => {
+            console.error('Error:', error)
+        }).then(response => {
+            dispatch(fetchTransactions(id));
+            dispatch(setInputName(""));
+            dispatch(setInputAmount(0));
+            
             console.log(response);
             console.log('Success:', JSON.stringify(response))
         });
@@ -116,3 +178,5 @@ export const getShowWallets = (state: RootState) => state.wallet.showWallets;
 export const getShowForm = (state: RootState) => state.wallet.showForm;
 export const getInputName = (state: RootState) => state.wallet.input_name;
 export const getInputAmount = (state: RootState) => state.wallet.input_amount;
+export const getShowCreditForm = (state: RootState) => state.wallet.showCreditForm;
+export const getShowDebitForm = (state: RootState) => state.wallet.showDebitForm;

@@ -1,15 +1,19 @@
-import { TOGGLE_DISPLAY_PAGE, SET_OPENED_WALLET, SET_INPUT_NAME, SET_INPUT_AMOUNT}  from "../actions/walletAction";
-import { SET_WALLETS, TOGGLE_WALLET_CREATE_FORM } from "../actions/walletAction";
-import { TOGGLE_SHOW_WALLETS } from "../actions/walletAction";
+import { SET_OPENED_WALLET, SET_INPUT_NAME, SET_INPUT_AMOUNT}  from "../actions/walletAction";
+import { SET_WALLETS } from "../actions/walletAction";
+import { TOGGLE_SHOW_WALLETS, TOGGLE_CREDIT_FORM, TOGGLE_DEBIT_FORM } from "../actions/walletAction";
+import { TOGGLE_DISPLAY_PAGE, TOGGLE_WALLET_CREATE_FORM} from "../actions/walletAction";
 
 const initialState = {
     showWallets: false,
     showForm: false,
+    showCreditForm: false,
+    showDebitForm: false,
     input_name: "",
     input_amount: 0,
     onWalletPage: false,
     wallets: [],
     openedWallet: {
+        id: 0,
         name: "",
         balance: 0,
         transactions: []
@@ -38,6 +42,16 @@ export const walletReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 showForm: action.showForm
+            }
+        case TOGGLE_CREDIT_FORM:
+            return {
+                ...state,
+                showCreditForm: action.showCreditForm
+            }
+        case TOGGLE_DEBIT_FORM:
+            return {
+                ...state,
+                showDebitForm: action.showDebitForm
             }
         case TOGGLE_SHOW_WALLETS:
             return {

@@ -52,7 +52,7 @@ const TransactionCard = (props: transactionProp) => {
         <Card className={classes.transaction_card} variant="outlined" >
             <div className={classes.wrapper}>
                 <div className={classes.wrapper}>
-                    {props.type==="topup"?<ArrowUpwardRoundedIcon fontSize="large" className={classes.uparrow_icon} />:<ArrowDownwardRoundedIcon fontSize="large" className={classes.downarrow_icon} />}
+                    {props.type==="CREDIT"?<ArrowUpwardRoundedIcon fontSize="large" className={classes.uparrow_icon} />:<ArrowDownwardRoundedIcon fontSize="large" className={classes.downarrow_icon} />}
                 </div>
                 
                 <Divider orientation="vertical" flexItem />

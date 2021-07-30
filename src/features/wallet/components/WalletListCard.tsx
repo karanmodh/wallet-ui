@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import { walletDetailsProp } from './Wallet';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getPage, getWallets} from '../actions/walletAction';
-import {setOpenedWallet, toggleDisplayPage } from '../actions/walletAction';
+import {fetchTransactions, toggleDisplayPage } from '../actions/walletAction';
 
 const useStyles = makeStyles({
     wrapper: {
@@ -46,7 +46,7 @@ const ListCard = (props: {details: walletDetailsProp}) => {
     const page = useAppSelector(getPage);
 
     const handleArrowClick = () => {
-        dispatch(setOpenedWallet(props.details));
+        dispatch(fetchTransactions(props.details.id));
         dispatch(toggleDisplayPage(!page));
     }
 
